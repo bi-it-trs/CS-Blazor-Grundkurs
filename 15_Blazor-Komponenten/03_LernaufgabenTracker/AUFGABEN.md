@@ -8,7 +8,7 @@ Dieses Projekt ist eigenständig. Starte es in diesem Verzeichnis mit:
 dotnet run --launch-profile http
 ```
 
-Die Ausgangslage ist **bereits funktionsfähig**: `Home.razor` enthält Formular, Validierung, Aufgabenliste, einzelne Karten und Erledigt-Button. Zwei Aufgaben sind vorgegeben. Neue Aufgaben lassen sich hinzufügen und erledigen. Lies bei Bedarf [THEORIE_UND_ANLEITUNG.md](THEORIE_UND_ANLEITUNG.md); deren Beispiele verwenden eine Gästeliste.
+Die Ausgangslage ist **bereits funktionsfähig**: `Home.razor` enthält Formular, Validierung, Aufgabenliste, einzelne Karten und Erledigt-Button. Drei Aufgaben sind vorgegeben. Neue Aufgaben lassen sich hinzufügen und erledigen. Lies bei Bedarf [THEORIE_UND_ANLEITUNG.md](THEORIE_UND_ANLEITUNG.md); deren Beispiele verwenden eine Gästeliste.
 
 ## Ziel
 
@@ -44,7 +44,7 @@ Beantworte vor dem Umbau: Welcher Zustand ist nur während der Eingabe nötig? W
 
 ## Funktionstest
 
-- Die zwei Startaufgaben erscheinen und die Anzahl stimmt.
+- Die drei Startaufgaben erscheinen und die Anzahl stimmt.
 - Eine neue Aufgabe ohne Beschreibung lässt sich anlegen.
 - Ein leerer Titel und ein Titel nur aus Leerzeichen werden abgelehnt; die Liste bleibt unverändert.
 - Nach gültiger Eingabe werden die Formularfelder zurückgesetzt.

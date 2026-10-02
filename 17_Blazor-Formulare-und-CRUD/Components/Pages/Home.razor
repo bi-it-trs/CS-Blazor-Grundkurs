@@ -1,0 +1,122 @@
+@page "/"
+@rendermode InteractiveServer
+@inject TaskItemRepository Repository
+
+<PageTitle>Todo-App · CRUD-Ausgangslage</PageTitle>
+
+<main class="lernseite">
+    <h1>Meine Aufgaben</h1>
+
+    @if (ladevorgangLaeuft)
+    {
+        <p role="status">Aufgaben werden geladen ...</p>
+    }
+    else if (ladefehler is not null)
+    {
+        <p role="alert">@ladefehler</p>
+    }
+    else
+    {
+        <AufgabenFormular
+            Deaktiviert="@speichervorgangLaeuft"
+            OnAufgabeErstellt="AufgabeHinzufuegen" />
+
+        @if (speichervorgangLaeuft)
+        {
+            <p role="status">Änderung wird gespeichert ...</p>
+        }
+
+        <p>Anzahl Aufgaben: @aufgaben.Count</p>
+
+        @foreach (TaskItem aufgabe in aufgaben)
+        {
+            <AufgabenKarte
+                Aufgabe="@aufgabe"
+                Deaktiviert="@speichervorgangLaeuft"
+                OnErledigt="AufgabeErledigen" />
+        }
+    }
+</main>
+
+@code {
+    private List<TaskItem> aufgaben = new List<TaskItem>();
+    private bool ladevorgangLaeuft = true;
+    private bool speichervorgangLaeuft;
+    private string? ladefehler;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            aufgaben = await Repository.LadeAlleAsync();
+        }
+        catch (Exception)
+        {
+            ladefehler = "Die Aufgaben konnten nicht geladen werden.";
+        }
+        finally
+        {
+            ladevorgangLaeuft = false;
+        }
+    }
+
+    private async Task AufgabeHinzufuegen(
+        TaskItem neueAufgabe)
+    {
+        PruefeObSpeichernMoeglichIst();
+        speichervorgangLaeuft = true;
+
+        try
+        {
+            await Repository.ErstellenAsync(neueAufgabe);
+            aufgaben.Add(neueAufgabe);
+        }
+        catch (Exception exception)
+        {
+            throw new InvalidOperationException(
+                "Die Aufgabe konnte nicht gespeichert werden.",
+                exception
+            );
+        }
+        finally
+        {
+            speichervorgangLaeuft = false;
+        }
+    }
+
+    private async Task AufgabeErledigen(TaskItem aufgabe)
+    {
+        PruefeObSpeichernMoeglichIst();
+        speichervorgangLaeuft = true;
+
+        try
+        {
+            await Repository.AlsErledigtMarkierenAsync(
+                aufgabe.Id
+            );
+
+            aufgabe.Status = AufgabenStatus.Erledigt;
+        }
+        catch (Exception exception)
+        {
+            throw new InvalidOperationException(
+                "Der Status konnte nicht gespeichert werden.",
+                exception
+            );
+        }
+        finally
+        {
+            speichervorgangLaeuft = false;
+        }
+    }
+
+    private void PruefeObSpeichernMoeglichIst()
+    {
+        if (speichervorgangLaeuft)
+        {
+            throw new InvalidOperationException(
+                "Eine Änderung wird bereits gespeichert."
+            );
+        }
+    }
+}

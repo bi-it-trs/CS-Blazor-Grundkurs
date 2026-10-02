@@ -1,0 +1,45 @@
+<section class="aufgabenkarte">
+    <h2>@Aufgabe.Titel</h2>
+    <p>@(Aufgabe.Beschreibung ?? "Keine Beschreibung")</p>
+    <p>Status: @Aufgabe.Status</p>
+
+    @if (Aufgabe.Status != AufgabenStatus.Erledigt)
+    {
+        <button type="button"
+                disabled="@Deaktiviert"
+                @onclick="ErledigtMelden">
+            Erledigt
+        </button>
+    }
+
+    @if (fehlermeldung is not null)
+    {
+        <p role="alert">@fehlermeldung</p>
+    }
+</section>
+
+@code {
+    private string? fehlermeldung;
+
+    [Parameter]
+    public TaskItem Aufgabe { get; set; } = default!;
+
+    [Parameter]
+    public bool Deaktiviert { get; set; }
+
+    [Parameter]
+    public EventCallback<TaskItem> OnErledigt { get; set; }
+
+    private async Task ErledigtMelden()
+    {
+        try
+        {
+            await OnErledigt.InvokeAsync(Aufgabe);
+            fehlermeldung = null;
+        }
+        catch (InvalidOperationException exception)
+        {
+            fehlermeldung = exception.Message;
+        }
+    }
+}

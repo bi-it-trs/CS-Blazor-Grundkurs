@@ -11,7 +11,7 @@ git status --short -- "15_Blazor-Komponenten/01_Farbwahl/"
 git restore --source=uebungen-start --staged --worktree -- "15_Blazor-Komponenten/01_Farbwahl/"
 ```
 
-Das stellt **versionierte** Dateien in genau diesem Ordner auf den Tag `uebungen-start` zurück. Änderungen in anderen Ordnern bleiben unberührt. Der Tag bezeichnet den Ausgangsstand aller Übungen.
+Das stellt **versionierte** Dateien in genau diesem Ordner auf den Tag `uebungen-start` zurück. Änderungen in anderen Ordnern bleiben unberührt. Der Tag muss den Ausgangsstand des gewünschten Übungsordners enthalten. Bei neu hinzugefügten Kapiteln funktioniert der Befehl erst, nachdem ihre Starterdateien eingecheckt und der Tag auf diesen Stand gesetzt wurde.
 
 Neu angelegte, bisher **nicht versionierte** Dateien bleiben nach `git restore` stehen. Zeige sie zuerst an:
 

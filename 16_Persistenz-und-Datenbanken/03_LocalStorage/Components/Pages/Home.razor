@@ -1,0 +1,150 @@
+@page "/"
+@rendermode InteractiveServer
+
+<PageTitle>Lerntracker · LocalStorage</PageTitle>
+
+<main class="lernseite">
+    <h1>Mein Lerntracker</h1>
+
+    @if (ladevorgangLaeuft)
+    {
+        <p role="status">Aufgaben werden geladen ...</p>
+    }
+    else if (ladefehler is not null)
+    {
+        <p role="alert">@ladefehler</p>
+    }
+    else
+    {
+        <AufgabenFormular
+            Deaktiviert="@speichervorgangLaeuft"
+            OnAufgabeErstellt="AufgabeHinzufuegen" />
+
+        @if (speichervorgangLaeuft)
+        {
+            <p role="status">Änderung wird gespeichert ...</p>
+        }
+
+        <p>Anzahl Aufgaben: @aufgaben.Count</p>
+
+        @foreach (TaskItem aufgabe in aufgaben)
+        {
+            <AufgabenKarte
+                Aufgabe="@aufgabe"
+                Deaktiviert="@speichervorgangLaeuft"
+                OnErledigt="AufgabeErledigen" />
+        }
+    }
+</main>
+
+@code {
+    private List<TaskItem> aufgaben = new List<TaskItem>();
+    private bool ladevorgangLaeuft = true;
+    private bool speichervorgangLaeuft;
+    private string? ladefehler;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            aufgaben = await StartaufgabenLadenAsync();
+        }
+        catch (Exception)
+        {
+            ladefehler = "Die Aufgaben konnten nicht geladen werden.";
+        }
+        finally
+        {
+            ladevorgangLaeuft = false;
+        }
+    }
+
+    private async Task AufgabeHinzufuegen(
+        TaskItem neueAufgabe)
+    {
+        if (speichervorgangLaeuft)
+        {
+            throw new InvalidOperationException(
+                "Eine Änderung wird bereits gespeichert."
+            );
+        }
+
+        speichervorgangLaeuft = true;
+
+        try
+        {
+            await AenderungSpeichernAsync();
+            aufgaben.Add(neueAufgabe);
+        }
+        catch (Exception exception)
+        {
+            throw new InvalidOperationException(
+                "Die Aufgabe konnte nicht gespeichert werden.",
+                exception
+            );
+        }
+        finally
+        {
+            speichervorgangLaeuft = false;
+        }
+    }
+
+    private async Task AufgabeErledigen(TaskItem aufgabe)
+    {
+        if (speichervorgangLaeuft)
+        {
+            throw new InvalidOperationException(
+                "Eine Änderung wird bereits gespeichert."
+            );
+        }
+
+        speichervorgangLaeuft = true;
+
+        try
+        {
+            await AenderungSpeichernAsync();
+            aufgabe.Status = AufgabenStatus.Erledigt;
+        }
+        catch (Exception exception)
+        {
+            throw new InvalidOperationException(
+                "Der Status konnte nicht gespeichert werden.",
+                exception
+            );
+        }
+        finally
+        {
+            speichervorgangLaeuft = false;
+        }
+    }
+
+    private static async Task<List<TaskItem>>
+        StartaufgabenLadenAsync()
+    {
+        await Task.Delay(800);
+
+        return new List<TaskItem>
+        {
+            new TaskItem(
+                "Razor wiederholen",
+                "C#-Werte im Markup darstellen",
+                AufgabenStatus.InArbeit
+            ),
+            new TaskItem(
+                "Komponenten üben",
+                null,
+                AufgabenStatus.Offen
+            ),
+            new TaskItem(
+                "Interaktionen testen",
+                "Der Erledigt-Button ist hier bereits ausgeblendet",
+                AufgabenStatus.Erledigt
+            )
+        };
+    }
+
+    private static async Task AenderungSpeichernAsync()
+    {
+        await Task.Delay(600);
+    }
+}

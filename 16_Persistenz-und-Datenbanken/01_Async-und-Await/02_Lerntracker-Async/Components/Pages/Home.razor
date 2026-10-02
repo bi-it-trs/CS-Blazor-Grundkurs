@@ -1,0 +1,51 @@
+@page "/"
+@rendermode InteractiveServer
+
+<PageTitle>Lerntracker · Async-Ausgangslage</PageTitle>
+
+<main class="lernseite">
+    <h1>Mein Lerntracker</h1>
+
+    <AufgabenFormular
+        OnAufgabeErstellt="AufgabeHinzufuegen" />
+
+    <p>Anzahl Aufgaben: @aufgaben.Count</p>
+
+    @foreach (TaskItem aufgabe in aufgaben)
+    {
+        <AufgabenKarte
+            Aufgabe="@aufgabe"
+            OnErledigt="AufgabeErledigen" />
+    }
+</main>
+
+@code {
+    private List<TaskItem> aufgaben = new List<TaskItem>
+    {
+        new TaskItem(
+            "Razor wiederholen",
+            "C#-Werte im Markup darstellen",
+            AufgabenStatus.InArbeit
+        ),
+        new TaskItem(
+            "Komponenten üben",
+            null,
+            AufgabenStatus.Offen
+        ),
+        new TaskItem(
+            "Interaktionen testen",
+            "Der Erledigt-Button ist hier bereits ausgeblendet",
+            AufgabenStatus.Erledigt
+        )
+    };
+
+    private void AufgabeHinzufuegen(TaskItem neueAufgabe)
+    {
+        aufgaben.Add(neueAufgabe);
+    }
+
+    private void AufgabeErledigen(TaskItem aufgabe)
+    {
+        aufgabe.Status = AufgabenStatus.Erledigt;
+    }
+}

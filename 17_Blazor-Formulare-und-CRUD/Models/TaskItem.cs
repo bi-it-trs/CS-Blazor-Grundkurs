@@ -1,0 +1,24 @@
+namespace TodoCrudUebung.Models;
+
+public class TaskItem
+{
+    public int Id { get; set; }
+    public string Titel { get; set; }
+    public string? Beschreibung { get; set; }
+    public AufgabenStatus Status { get; set; }
+
+    public TaskItem()
+    {
+        Titel = string.Empty;
+    }
+
+    public TaskItem(
+        string titel,
+        string? beschreibung,
+        AufgabenStatus status)
+    {
+        Titel = titel;
+        Beschreibung = beschreibung;
+        Status = status;
+    }
+}

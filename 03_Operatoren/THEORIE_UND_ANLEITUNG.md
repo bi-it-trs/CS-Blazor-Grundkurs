@@ -139,3 +139,18 @@ Ein Rest von `0` bedeutet, dass die Zahl ohne Rest teilbar ist. Bei `9 % 2` wär
 - Ein Vergleich wird als Text statt als `bool` gespeichert.
 - Bei `%` wird der Rest ausgegeben, aber nicht mit `0` verglichen, obwohl ein Wahrheitswert benötigt wird.
 
+## Nur diese Übung zurücksetzen
+
+Führe die Befehle im Terminal im Ordner `cs_uebungen` aus. Der folgende Befehl stellt nur die versionierten Dateien dieser Übung auf den Ausgangsstand zurück:
+
+```powershell
+git restore --source=uebungen-start --staged --worktree -- "03_Operatoren/"
+```
+
+Falls du in diesem Übungsordner neue, noch nicht versionierte Dateien erstellt hast, zeige sie zuerst an:
+
+```powershell
+git clean -nd -- "03_Operatoren/"
+```
+
+Nur wenn diese Dateien ebenfalls weg sollen, führe danach `git clean -fd -- "03_Operatoren/"` aus. Das Löschen ist endgültig. Andere Übungsordner bleiben bei allen drei Befehlen unangetastet.

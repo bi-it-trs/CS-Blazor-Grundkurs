@@ -103,3 +103,19 @@ Eine gleichnamige Property in zwei Kindkomponenten ist erlaubt: Es sind zwei ver
 6. Steht `@rendermode InteractiveServer` auf der Seite, damit Klicks verarbeitet werden?
 
 Ein Modell oder eine neue Klasseninstanz ist für einen einzelnen `string` nicht nötig. Normale C#-Klassen sind sinnvoll, wenn mehrere zusammengehörende Daten ein Objekt bilden; Razor-Komponenten bleiben für die Oberfläche zuständig.
+
+## Nur diese Übung zurücksetzen
+
+Führe die Befehle im Terminal im Ordner `cs_uebungen` aus. Der folgende Befehl stellt nur die versionierten Dateien dieser Übung auf den Ausgangsstand zurück:
+
+```powershell
+git restore --source=uebungen-start --staged --worktree -- "15_Blazor-Komponenten/01_Farbwahl/"
+```
+
+Falls du in diesem Übungsordner neue, noch nicht versionierte Dateien erstellt hast, zeige sie zuerst an:
+
+```powershell
+git clean -nd -- "15_Blazor-Komponenten/01_Farbwahl/"
+```
+
+Nur wenn diese Dateien ebenfalls weg sollen, führe danach `git clean -fd -- "15_Blazor-Komponenten/01_Farbwahl/"` aus. Das Löschen ist endgültig. Andere Übungsordner bleiben bei allen drei Befehlen unangetastet.

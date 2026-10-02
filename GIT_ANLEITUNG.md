@@ -45,10 +45,10 @@ gh auth login -h github.com
 gh auth status
 ```
 
-Wenn die Anmeldung funktioniert und noch kein gleichnamiges Remote-Repository existiert, kannst du aus dem Ordner `cs_uebungen` ein **privates** Repository erstellen und den lokalen Stand samt Start-Tag hochladen:
+Wenn die Anmeldung funktioniert und noch kein gleichnamiges Remote-Repository existiert, kannst du aus dem Ordner `cs_uebungen` ein **öffentliches** Repository erstellen und den lokalen Stand samt Start-Tag hochladen:
 
 ```powershell
-gh repo create cs_uebungen --private --source=. --remote=origin --push
+gh repo create cs_uebungen --public --source=. --remote=origin --push
 git push origin uebungen-start
 ```
 

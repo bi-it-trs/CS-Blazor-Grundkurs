@@ -11,3 +11,15 @@ Drei **eigenständige** .NET-10-Blazor-Projekte, in Lernreihenfolge:
 In **jedem** Projekt liegen ein Aufgabenblatt und eine eigenständige [Theorie und Anleitung](THEORIE_UND_ANLEITUNG.md) mit Beispielen aus einer anderen Anwendung. Starte immer nur das Projekt, an dem du arbeitest: Terminal in dessen Ordner öffnen und `dotnet run --launch-profile http` ausführen. Die drei Projekte haben eigene Projektdateien, Startprofile und Ports.
 
 Der bereits bearbeitete Tracker im Hauptordner `cs_uebungen/LernaufgabenTracker` bleibt als persönliches Arbeitsprojekt bestehen. Die drei Kapitelprojekte sind frische Übungsvorlagen.
+
+## Einzelne Übung zurücksetzen
+
+Führe im Terminal im Ordner `cs_uebungen` **nur die Zeile für das gewünschte Projekt** aus:
+
+```powershell
+git restore --source=uebungen-start --staged --worktree -- "15_Blazor-Komponenten/01_Farbwahl/"
+git restore --source=uebungen-start --staged --worktree -- "15_Blazor-Komponenten/02_Temperaturregler/"
+git restore --source=uebungen-start --staged --worktree -- "15_Blazor-Komponenten/03_LernaufgabenTracker/"
+```
+
+Diese Befehle betreffen nur versionierte Dateien des jeweils angegebenen Projekts. Neu angelegte, noch nicht versionierte Dateien kannst du mit `git clean -nd -- "GEWÄHLTER_PFAD/"` zuerst anzeigen und danach bei Bedarf mit `git clean -fd -- "GEWÄHLTER_PFAD/"` endgültig löschen. Die konkreten Befehle stehen auch in den Aufgabenblättern der drei Projekte.

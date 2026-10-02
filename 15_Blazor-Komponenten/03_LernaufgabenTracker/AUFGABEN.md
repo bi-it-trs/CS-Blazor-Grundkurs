@@ -54,3 +54,19 @@ Beantworte vor dem Umbau: Welcher Zustand ist nur während der Eingabe nötig? W
 - `dotnet build` endet ohne Fehler und Warnungen.
 
 Arbeite in kleinen Schritten und baue nach Teil A sowie nach Teil B. Wenn ein Komponenten-Tag nicht erkannt wird, prüfe Dateiname und Namespace-Import in `Components/_Imports.razor`.
+
+## Nur diese Übung zurücksetzen
+
+Führe die Befehle im Terminal im Ordner `cs_uebungen` aus. Der folgende Befehl stellt nur die versionierten Dateien dieser Übung auf den Ausgangsstand zurück:
+
+```powershell
+git restore --source=uebungen-start --staged --worktree -- "15_Blazor-Komponenten/03_LernaufgabenTracker/"
+```
+
+Falls du in diesem Übungsordner neue, noch nicht versionierte Dateien erstellt hast, zeige sie zuerst an:
+
+```powershell
+git clean -nd -- "15_Blazor-Komponenten/03_LernaufgabenTracker/"
+```
+
+Nur wenn diese Dateien ebenfalls weg sollen, führe danach `git clean -fd -- "15_Blazor-Komponenten/03_LernaufgabenTracker/"` aus. Das Löschen ist endgültig. Andere Übungsordner bleiben bei allen drei Befehlen unangetastet.

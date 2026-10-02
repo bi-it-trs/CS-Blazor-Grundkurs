@@ -37,3 +37,18 @@ Arbeite in `Program.cs` und `TaskItem.cs`. Benenne diese Dateien, die Klasse ode
 - Prüfe vor einem Indexzugriff, ob die Liste genügend Elemente besitzt.
 - Schreibe eine Methode, die eine komplette `List<TaskItem>` als Parameter erhält und ausgibt.
 
+## Nur diese Übung zurücksetzen
+
+Führe die Befehle im Terminal im Ordner `cs_uebungen` aus. Der folgende Befehl stellt nur die versionierten Dateien dieser Übung auf den Ausgangsstand zurück:
+
+```powershell
+git restore --source=uebungen-start --staged --worktree -- "09_Collections/"
+```
+
+Falls du in diesem Übungsordner neue, noch nicht versionierte Dateien erstellt hast, zeige sie zuerst an:
+
+```powershell
+git clean -nd -- "09_Collections/"
+```
+
+Nur wenn diese Dateien ebenfalls weg sollen, führe danach `git clean -fd -- "09_Collections/"` aus. Das Löschen ist endgültig. Andere Übungsordner bleiben bei allen drei Befehlen unangetastet.

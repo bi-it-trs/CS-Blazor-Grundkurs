@@ -423,3 +423,19 @@ Die vorhandene `_Imports.razor` importiert bereits die Komponenten- und Modell-N
 - Formularcode bleibt doppelt in `Home` und im Kind vorhanden.
 - `@rendermode InteractiveServer` wird aus `Home` entfernt.
 - Beide Komponenten werden gleichzeitig ausgelagert und Fehler lassen sich schwer eingrenzen.
+
+## Nur diese Übung zurücksetzen
+
+Führe die Befehle im Terminal im Ordner `cs_uebungen` aus. Der folgende Befehl stellt nur die versionierten Dateien dieser Übung auf den Ausgangsstand zurück:
+
+```powershell
+git restore --source=uebungen-start --staged --worktree -- "15_Blazor-Komponenten/03_LernaufgabenTracker/"
+```
+
+Falls du in diesem Übungsordner neue, noch nicht versionierte Dateien erstellt hast, zeige sie zuerst an:
+
+```powershell
+git clean -nd -- "15_Blazor-Komponenten/03_LernaufgabenTracker/"
+```
+
+Nur wenn diese Dateien ebenfalls weg sollen, führe danach `git clean -fd -- "15_Blazor-Komponenten/03_LernaufgabenTracker/"` aus. Das Löschen ist endgültig. Andere Übungsordner bleiben bei allen drei Befehlen unangetastet.

@@ -1,0 +1,37 @@
+@page "/"
+@rendermode InteractiveServer
+
+<PageTitle>Übung 02 · Temperaturregler</PageTitle>
+
+<main class="lernseite">
+    <header class="seitenkopf">
+        <p class="eyebrow">Blazor · Übung 02</p>
+        <h1>Der Temperaturregler</h1>
+        <p>
+            Ein Button meldet einen Schritt an den Regler. Der Regler leitet ihn an
+            Home weiter. Home aktualisiert die Temperatur und gibt sie an die Anzeige.
+        </p>
+    </header>
+
+    <div class="komponenten-raster">
+        <TemperaturRegler />
+        <TemperaturAnzeige Temperatur="@temperatur" />
+    </div>
+
+    <aside class="zustandsanzeige">
+        Zustand in <code>Home.razor</code>: <strong>@temperatur °C</strong>
+    </aside>
+
+    <section class="arbeitsauftrag" aria-labelledby="auftrag-titel">
+        <h2 id="auftrag-titel">Dein Ziel</h2>
+        <p>
+            Ein Klick auf „Wärmer“ erhöht die Temperatur um 1 °C.
+            Ein Klick auf „Kälter“ senkt sie um 1 °C.
+        </p>
+        <p>Aufgabenblatt: <code>AUFGABEN.md</code></p>
+    </section>
+</main>
+
+@code {
+    private int temperatur = 20;
+}

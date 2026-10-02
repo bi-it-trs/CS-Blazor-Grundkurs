@@ -1,0 +1,67 @@
+<form @onsubmit="Absenden"
+      @onsubmit:preventDefault>
+    <label>
+        Titel
+        <input @bind="titel" />
+    </label>
+
+    <label>
+        Beschreibung
+        <textarea @bind="beschreibung"></textarea>
+    </label>
+
+    <label>
+        Status
+        <select @bind="status">
+            <option value="@AufgabenStatus.Offen">Offen</option>
+            <option value="@AufgabenStatus.InArbeit">In Arbeit</option>
+            <option value="@AufgabenStatus.Erledigt">Erledigt</option>
+        </select>
+    </label>
+
+    <button type="submit">Aufgabe hinzufügen</button>
+</form>
+
+@if (fehlermeldung is not null)
+{
+    <p role="alert">@fehlermeldung</p>
+}
+
+@code {
+    private string titel = string.Empty;
+    private string? beschreibung;
+    private AufgabenStatus status = AufgabenStatus.Offen;
+    private string? fehlermeldung;
+
+    [Parameter]
+    public EventCallback<TaskItem> OnAufgabeErstellt { get; set; }
+
+    private async Task Absenden()
+    {
+        if (string.IsNullOrWhiteSpace(titel))
+        {
+            fehlermeldung = "Der Titel darf nicht leer sein.";
+            return;
+        }
+
+        string? gespeicherteBeschreibung = beschreibung;
+
+        if (string.IsNullOrWhiteSpace(gespeicherteBeschreibung))
+        {
+            gespeicherteBeschreibung = null;
+        }
+
+        TaskItem neueAufgabe = new TaskItem(
+            titel,
+            gespeicherteBeschreibung,
+            status
+        );
+
+        await OnAufgabeErstellt.InvokeAsync(neueAufgabe);
+
+        titel = string.Empty;
+        beschreibung = null;
+        status = AufgabenStatus.Offen;
+        fehlermeldung = null;
+    }
+}

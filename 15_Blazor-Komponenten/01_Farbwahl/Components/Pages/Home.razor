@@ -1,0 +1,38 @@
+@page "/"
+@rendermode InteractiveServer
+
+<PageTitle>Übung 01 · Farbwahl</PageTitle>
+
+<main class="lernseite">
+    <header class="seitenkopf">
+        <p class="eyebrow">Blazor · Übung 01</p>
+        <h1>Eine Farbe, zwei Kinder</h1>
+        <p>
+            Die Auswahl links und die Vorschau rechts sind Geschwisterkomponenten.
+            Verbinde sie über diese Elternkomponente.
+        </p>
+    </header>
+
+    <div class="komponenten-raster">
+        <FarbAuswahl />
+        <FarbVorschau />
+    </div>
+
+    <aside class="zustandsanzeige">
+        Zustand in <code>Home.razor</code>: <strong>@ausgewaehlteFarbe</strong>
+    </aside>
+
+    <section class="arbeitsauftrag" aria-labelledby="auftrag-titel">
+        <h2 id="auftrag-titel">Dein Ziel</h2>
+        <p>
+            Wenn du links eine Farbe anklickst, sollen sich der Elternzustand
+            und die Vorschau rechts auf dieselbe Farbe ändern.
+        </p>
+        <p>Aufgabenblatt: <code>AUFGABEN.md</code></p>
+    </section>
+</main>
+
+@code {
+    // Diese Komponente soll die ausgewählte Farbe besitzen.
+    private string ausgewaehlteFarbe = "Blau";
+}

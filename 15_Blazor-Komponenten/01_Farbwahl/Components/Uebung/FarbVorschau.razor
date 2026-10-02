@@ -1,0 +1,12 @@
+<section class="uebungskarte" aria-labelledby="vorschau-titel">
+    <p class="komponentenname">Kind B · FarbVorschau.razor</p>
+    <h2 id="vorschau-titel">Vorschau</h2>
+
+    <div class="farbfeld" data-farbe="@Farbe" aria-hidden="true"></div>
+    <p>Aktuelle Farbe: <strong>@Farbe</strong></p>
+</section>
+
+@code {
+    // Ersetze diesen lokalen Wert in der Übung durch einen Parameter.
+    private string Farbe { get; set; } = "Blau";
+}

@@ -1,0 +1,29 @@
+# Build-Ausgaben aller .NET-Übungen
+**/bin/
+**/obj/
+**/TestResults/
+
+# Editor- und benutzerspezifische Dateien
+.vs/
+.vscode/
+.idea/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Lokale Konfiguration und Zugangsdaten
+.env
+.env.*
+!.env.example
+**/appsettings.Development.json
+**/appsettings.*.local.json
+**/appsettings.Production.json
+**/secrets.json
+
+# Lokale Datenbanken und Betriebssystemdateien
+*.db
+*.sqlite
+*.sqlite3
+.DS_Store
+Thumbs.db

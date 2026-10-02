@@ -1,0 +1,97 @@
+@page "/"
+@rendermode InteractiveServer
+
+<PageTitle>LernaufgabenTracker · Übung 03</PageTitle>
+
+<main class="lernseite">
+    <h1>Mein Lerntracker</h1>
+    <p>Ausgangslage: Alles steht noch in <code>Home.razor</code>. Lagere Formular und einzelne Karten aus.</p>
+
+    <form @onsubmit="AufgabeHinzufuegen" @onsubmit:preventDefault>
+        <label>
+            Titel
+            <input @bind="neuerTitel" />
+        </label>
+
+        <label>
+            Beschreibung
+            <textarea @bind="neueBeschreibung"></textarea>
+        </label>
+
+        <label>
+            Status
+            <select @bind="neuerStatus">
+                <option value="@AufgabenStatus.Offen">Offen</option>
+                <option value="@AufgabenStatus.InArbeit">In Arbeit</option>
+                <option value="@AufgabenStatus.Erledigt">Erledigt</option>
+            </select>
+        </label>
+
+        <button type="submit">Aufgabe hinzufügen</button>
+    </form>
+
+    @if (fehlermeldung is not null)
+    {
+        <p role="alert">@fehlermeldung</p>
+    }
+
+    <p>Anzahl Aufgaben: @aufgaben.Count</p>
+
+    @foreach (TaskItem aufgabe in aufgaben)
+    {
+        <section class="aufgabenkarte">
+            <h2>@aufgabe.Titel</h2>
+            <p>@(aufgabe.Beschreibung ?? "Keine Beschreibung")</p>
+            <p>Status: @aufgabe.Status</p>
+
+            @if (aufgabe.Status != AufgabenStatus.Erledigt)
+            {
+                <button type="button" @onclick="() => AufgabeErledigen(aufgabe)">
+                    Erledigt
+                </button>
+            }
+        </section>
+    }
+</main>
+
+@code {
+    private List<TaskItem> aufgaben = new List<TaskItem>
+    {
+        new TaskItem("Razor wiederholen", "C#-Werte im Markup darstellen", AufgabenStatus.InArbeit),
+        new TaskItem("Komponenten üben", null, AufgabenStatus.Offen),
+        new TaskItem("Interaktionen testen", "Der Erledigt-Button ist hier bereits ausgeblendet", AufgabenStatus.Erledigt)
+    };
+
+    private string neuerTitel = string.Empty;
+    private string? neueBeschreibung;
+    private AufgabenStatus neuerStatus = AufgabenStatus.Offen;
+    private string? fehlermeldung;
+
+    private void AufgabeHinzufuegen()
+    {
+        if (string.IsNullOrWhiteSpace(neuerTitel))
+        {
+            fehlermeldung = "Der Titel darf nicht leer sein.";
+            return;
+        }
+
+        string? beschreibung = neueBeschreibung;
+
+        if (string.IsNullOrWhiteSpace(beschreibung))
+        {
+            beschreibung = null;
+        }
+
+        aufgaben.Add(new TaskItem(neuerTitel, beschreibung, neuerStatus));
+
+        neuerTitel = string.Empty;
+        neueBeschreibung = null;
+        neuerStatus = AufgabenStatus.Offen;
+        fehlermeldung = null;
+    }
+
+    private void AufgabeErledigen(TaskItem aufgabe)
+    {
+        aufgabe.Status = AufgabenStatus.Erledigt;
+    }
+}

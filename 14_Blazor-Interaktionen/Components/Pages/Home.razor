@@ -1,0 +1,43 @@
+@page "/"
+
+<PageTitle>Lerntracker</PageTitle>
+
+<h1>Mein Lerntracker</h1>
+
+<p>Gesamtzahl: @aufgaben.Count</p>
+
+<ul>
+    @foreach (TaskItem aufgabe in aufgaben)
+    {
+        <li>
+            <section>
+                <h2>@aufgabe.Titel</h2>
+                <p>
+                    @(aufgabe.Beschreibung ?? "Keine Beschreibung")
+                </p>
+                <p>Status: @aufgabe.Status</p>
+            </section>
+        </li>
+    }
+</ul>
+
+@code {
+    private List<TaskItem> aufgaben = new List<TaskItem>
+    {
+        new TaskItem(
+            "Razor-Syntax wiederholen",
+            "C#-Werte im Markup darstellen",
+            AufgabenStatus.InArbeit
+        ),
+        new TaskItem(
+            "HTML-Struktur prüfen",
+            null,
+            AufgabenStatus.Offen
+        ),
+        new TaskItem(
+            "Statische Aufgabenliste erstellen",
+            "Drei Aufgaben mit foreach ausgeben",
+            AufgabenStatus.Erledigt
+        )
+    };
+}

@@ -1,0 +1,46 @@
+@page "/farben"
+@rendermode InteractiveServer
+
+<PageTitle>Komponentenkommunikation üben</PageTitle>
+
+<main class="lernseite">
+    <header class="seitenkopf">
+        <p class="eyebrow">Blazor · Übung 1</p>
+        <h1>Eine Farbe, zwei Kinder</h1>
+        <p>
+            Die Auswahl links und die Vorschau rechts sind Geschwisterkomponenten.
+            Verbinde sie über diese Elternkomponente.
+        </p>
+        <a href="/">Zurück zu Übung 2</a>
+    </header>
+
+    <div class="komponenten-raster">
+        <FarbAuswahl 
+        Farbe = "FarbeGewaehlt" />
+        <FarbVorschau
+        Farbe ="@ausgewaehlteFarbe" />
+    </div>
+
+    <aside class="zustandsanzeige">
+        Zustand in <code>Farben.razor</code>: <strong>@ausgewaehlteFarbe</strong>
+    </aside>
+
+    <section class="arbeitsauftrag" aria-labelledby="auftrag-titel">
+        <h2 id="auftrag-titel">Dein Ziel</h2>
+        <p>
+            Wenn du links eine Farbe anklickst, sollen sich der Elternzustand unten
+            und die Vorschau rechts auf dieselbe Farbe ändern.
+        </p>
+        <p>Die Schritte und Prüffragen stehen in <code>comp_comm/UEBUNG1.md</code>.</p>
+    </section>
+</main>
+
+@code {
+    private string ausgewaehlteFarbe = "Blau";
+
+    public void FarbeGewaehlt(string farbe)
+    {
+        ausgewaehlteFarbe = farbe;
+    }
+}
+

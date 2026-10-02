@@ -1,0 +1,43 @@
+﻿@using LernaufgabenTracker.Models
+
+@rendermode InteractiveServer
+
+@page "/"
+
+
+<PageTitle>Home</PageTitle>
+
+<h1>@ueberschrift</h1>
+
+@foreach (TaskItem aufgabe in aufgaben)
+{
+    <AufgabenKarte
+        Aufgabe="@aufgabe"
+        OnErledigt="AufgabeErledigt" />    
+}
+
+<p>Anzahl Aufgaben: @aufgaben.Count</p>
+
+<AufgabenFormular
+    OnAufgabeErstellt="NeueAufgabeUebernehmen">
+</AufgabenFormular>
+
+
+
+@code {
+
+
+    private string ueberschrift = "Mein Lerntracker";
+    private List<TaskItem> aufgaben = new List<TaskItem>();
+
+    private void NeueAufgabeUebernehmen(TaskItem neueAufgabe)
+    {
+        aufgaben.Add(neueAufgabe);
+    }
+
+    private void AufgabeErledigt(TaskItem aufgabe)
+    {
+        aufgabe.Status = AufgabenStatus.Erledigt;
+    }
+
+}

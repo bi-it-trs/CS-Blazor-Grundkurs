@@ -1,0 +1,48 @@
+@page "/"
+@rendermode InteractiveServer
+
+<PageTitle>Übung 2 · Komponentenkommunikation</PageTitle>
+
+<main class="lernseite">
+    <header class="seitenkopf">
+        <p class="eyebrow">Blazor · Übung 2</p>
+        <h1>Der Temperaturregler</h1>
+        <p>
+            Ein Button meldet einen Schritt an den Regler. Der Regler leitet ihn an
+            Home weiter. Home aktualisiert die Temperatur und gibt sie an die Anzeige.
+        </p>
+        <a href="/farben">Deine fertige Farb-Übung ansehen</a>
+    </header>
+
+    <div class="komponenten-raster">
+        <TemperaturRegler 
+        ToHome ="reguliert"
+        />
+        <TemperaturAnzeige Temperatur="@temperatur" />
+    </div>
+
+    <aside class="zustandsanzeige">
+        Zustand in <code>Home.razor</code>: <strong>@temperatur °C</strong>
+    </aside>
+
+    <section class="arbeitsauftrag" aria-labelledby="auftrag-titel">
+        <h2 id="auftrag-titel">Dein Ziel</h2>
+        <p>
+            Ein Klick auf „Wärmer“ erhöht die Temperatur um 1 °C.
+            Ein Klick auf „Kälter“ senkt sie um 1 °C.
+        </p>
+        <p>Arbeite mit der Anleitung in <code>comp_comm/README.md</code>.</p>
+    </section>
+</main>
+
+@code {
+    @* [Parameter]
+    public int Schritt { get; set; } *@
+
+    private int temperatur = 20;
+
+    private void reguliert(int schritt)
+    {
+        temperatur = temperatur + schritt;
+    }
+}

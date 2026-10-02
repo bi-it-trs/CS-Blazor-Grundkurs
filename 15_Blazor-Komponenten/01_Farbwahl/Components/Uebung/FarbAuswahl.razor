@@ -1,0 +1,18 @@
+<section class="uebungskarte" aria-labelledby="auswahl-titel">
+    <p class="komponentenname">Kind A · FarbAuswahl.razor</p>
+    <h2 id="auswahl-titel">Wähle eine Farbe</h2>
+
+    <div class="farbknopfe">
+        @foreach (string farbe in farben)
+        {
+            <button type="button" class="farbknopf">
+                <span class="knopfpunkt" data-farbe="@farbe" aria-hidden="true"></span>
+                @farbe
+            </button>
+        }
+    </div>
+</section>
+
+@code {
+    private readonly string[] farben = ["Blau", "Grün", "Orange"];
+}

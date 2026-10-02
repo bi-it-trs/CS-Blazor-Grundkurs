@@ -1,0 +1,82 @@
+@using LernaufgabenTracker.Models
+
+<form
+    @onsubmit="AufgabeHinzuefuegen"
+    @onsubmit:preventDefault>
+    <label>Titel
+        <input @bind="neuerTitel"/>
+    </label>
+
+    <label>Beschreibung
+        <textarea @bind="neueBeschreibung"></textarea>
+    </label>
+
+    <label>Status
+        <select @bind="neuerStatus">
+            <option value="@AufgabenStatus.Offen">Offen</option>
+            <option value="@AufgabenStatus.InArbeit">In Arbeit</option>
+            <option value="@AufgabenStatus.Erledigt">Erledigt</option>
+        </select>
+    </label>
+
+    <button type="submit">
+        AufgabeHinzuefuegen
+    </button>
+
+</form>
+
+@if (fehlermeldung is not null)
+{
+    <div class="dialog-hintergrund">
+        <div class="dialog" role="alertdialog">
+            <h2>Fehler</h2>
+            <p>@fehlermeldung</p>
+
+            <button type="button"
+                    @onclick="FehlermeldungSchliessen">
+                OK
+            </button>
+        </div>
+    </div>
+}
+
+
+@code{
+    [Parameter]
+    public EventCallback<TaskItem> OnAufgabeErstellt {get; set; }
+    private string neuerTitel = "";
+    private string? neueBeschreibung;
+    private AufgabenStatus neuerStatus = AufgabenStatus.Offen;
+
+    private string? fehlermeldung;
+    private async Task AufgabeHinzuefuegen()
+    {
+        if (string.IsNullOrWhiteSpace(neuerTitel))
+        {
+            fehlermeldung = "Der Titel darf nicht leer sein.";
+            return;
+        }
+        string? beschreibung =
+            string.IsNullOrWhiteSpace(neueBeschreibung)
+                ? null
+                : neueBeschreibung;
+
+
+    TaskItem neueAufgabe = new TaskItem(
+            neuerTitel,
+            beschreibung,
+            neuerStatus
+    );
+    
+    await OnAufgabeErstellt.InvokeAsync(neueAufgabe);
+
+        neuerTitel = "";
+        neueBeschreibung = null;
+        neuerStatus = AufgabenStatus.Offen;
+        fehlermeldung = null;
+    }
+    private void FehlermeldungSchliessen()
+    {
+        fehlermeldung = null;
+    }
+}

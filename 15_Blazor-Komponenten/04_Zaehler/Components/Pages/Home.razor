@@ -1,0 +1,18 @@
+@page "/"
+@rendermode InteractiveServer
+
+<h1>Zähler</h1>
+
+<p>Stand: @stand</p>
+
+<button type="button" @onclick="() => Aendere(-1)">-1</button>
+<button type="button" @onclick="() => Aendere(1)">+1</button>
+
+@code {
+    private int stand;
+
+    private void Aendere(int schritt)
+    {
+        stand += schritt;
+    }
+}

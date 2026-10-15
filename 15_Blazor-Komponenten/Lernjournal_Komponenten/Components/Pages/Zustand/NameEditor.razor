@@ -1,0 +1,21 @@
+@inject LernZustand Zustand
+
+<fieldset>
+    <legend>NameEditor</legend>
+    <label>Name: <input @bind="entwurf" @bind:event="oninput" /></label>
+    <button @onclick="Speichern">Im Dienst speichern</button>
+</fieldset>
+
+@code {
+    private string entwurf = "";
+
+    protected override void OnInitialized()
+    {
+        entwurf = Zustand.Name;
+    }
+
+    private void Speichern()
+    {
+        Zustand.NameSetzen(entwurf);
+    }
+}

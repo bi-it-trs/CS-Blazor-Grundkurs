@@ -1,0 +1,41 @@
+@page "/async"
+
+<PageTitle>05 Async</PageTitle>
+<h1>05 Async, await und Callback-Abschluss</h1>
+<p>Das Kind wartet auf den Eltern-Handler. Ein Task beschreibt den Abschluss, keinen neuen Thread.</p>
+
+<LadeKnopf Laden="DatenLadenAsync" />
+
+<fieldset>
+    <legend>Eltern: AsyncDemo</legend>
+    <p><label><input type="checkbox" @bind="fehlerAusloesen" /> Fehler beim nächsten Laden auslösen</label></p>
+    <p>Status bei den Eltern: @status</p>
+    <p>Geladener Text: @text</p>
+</fieldset>
+
+<p>Der Fehler aus dem Eltern-Handler wird beim await im Kind beobachtet und dort abgefangen.</p>
+<p>Kein async void: Blazor und der Aufrufer sollen auf den Task warten können.</p>
+
+@code {
+    private string status = "Bereit";
+    private string text = "Noch keine Daten";
+    private bool fehlerAusloesen;
+
+    private async Task DatenLadenAsync()
+    {
+        bool sollFehlschlagen = fehlerAusloesen;
+        status = "Lädt ...";
+        await Task.Delay(1500);
+
+        if (sollFehlschlagen)
+        {
+            status = "Fehler beim Laden";
+            // Bei einem fehlerhaften Task entfällt das Rendern am erfolgreichen Abschluss.
+            StateHasChanged();
+            throw new InvalidOperationException("Absichtlicher Lernfehler");
+        }
+
+        text = "Daten sind angekommen";
+        status = "Fertig";
+    }
+}

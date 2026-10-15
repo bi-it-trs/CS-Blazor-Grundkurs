@@ -1,0 +1,67 @@
+@page "/methoden"
+@using BlazorDatenlabor.Components.Pages.Callback
+
+<PageTitle>04 Rückgabewerte</PageTitle>
+<h1>04 Rückgabewerte und Ereignishandler</h1>
+<p>Ein Ereignis meldet etwas. Eine Abfrage fordert gezielt einen Rückgabewert an.</p>
+
+<h2>Rückgabewert im Handler verwenden</h2>
+<button @onclick="TextSetzen">string über einen void-Handler verwenden</button>
+<button @onclick="TextSetzenAsync">Task&lt;string&gt; über einen Task-Handler verwenden</button>
+<p>Ergebnis bei den Eltern: @ergebnis</p>
+
+<h2>Kind fragt einen Wert bei den Eltern ab</h2>
+<AnfrageBox TextLesen="TextErstellen" TextLaden="TextLadenAsync" />
+
+<h2>Callback mit string als Eingabewert</h2>
+<TextSender TextGesendet="TextEmpfangen" />
+
+<p><code>void TextEmpfangen(string text)</code> passt zu <code>EventCallback&lt;string&gt;</code>:
+    string ist der Eingabewert. Ein string-Rückgabewert ist etwas anderes.</p>
+
+<details>
+    <summary>Sonderfälle: Rückgabewert wird nicht verwendet</summary>
+    <button @onclick="() => TextErstellen()">Lambda verwirft string</button>
+    <button @onclick="TextLadenAsync">Task&lt;string&gt; als Ereignishandler</button>
+    <p>Die erste Lambda kann als Action behandelt werden und verwirft den Text.
+        Task&lt;string&gt; ist auch ein Task: Blazor kann auf den Abschluss warten,
+        übernimmt den zurückgegebenen Text aber nicht in unsere Variable.</p>
+    <p>Beide Buttons ändern deshalb das sichtbare Ergebnis nicht.</p>
+</details>
+
+@* Nicht direkt kompatibel: Ein synchroner string-Rückgabewert ist weder void noch Task.
+   <button @onclick="TextErstellen">Falsch</button>
+
+   Ebenfalls falsch: Der Callback bekommt string, die Methode erwartet int.
+   <TextSender TextGesendet="(int zahl) => TextEmpfangen(zahl.ToString())" />
+*@
+
+@code {
+    private string ergebnis = "Noch kein Ergebnis";
+
+    private string TextErstellen()
+    {
+        return "Text aus einer string-Methode";
+    }
+
+    private async Task<string> TextLadenAsync()
+    {
+        await Task.Delay(700);
+        return "Text aus einer Task<string>-Methode";
+    }
+
+    private void TextSetzen()
+    {
+        ergebnis = TextErstellen();
+    }
+
+    private async Task TextSetzenAsync()
+    {
+        ergebnis = await TextLadenAsync();
+    }
+
+    private void TextEmpfangen(string text)
+    {
+        ergebnis = text;
+    }
+}

@@ -1,0 +1,16 @@
+<fieldset>
+    <legend>@Titel</legend>
+    <p>Text im Kind: @Text</p>
+    <p>Zahl im Kind: @Zahl</p>
+</fieldset>
+
+@code {
+    [Parameter]
+    public string Text { get; set; } = "";
+
+    [Parameter]
+    public int Zahl { get; set; }
+
+    [Parameter]
+    public string Titel { get; set; } = "Kind mit Standardwerten";
+}

@@ -1,0 +1,36 @@
+@page "/objekte"
+
+<PageTitle>11 Objekte</PageTitle>
+<h1>11 Objekte als Parameter und Callback-Daten</h1>
+<p>Ein Objekt kann mehrere Werte transportieren. Eine Klasseninstanz wird als gemeinsame Referenz übergeben.</p>
+
+<fieldset>
+    <legend>Eltern: ObjektDemo</legend>
+    <p>Person bei den Eltern: @person.Name, @person.Alter Jahre</p>
+    <p>Empfangene Speicher-Callbacks: @speicherungen</p>
+    <button @onclick="AnzeigeAktualisieren">Elternanzeige neu rendern</button>
+</fieldset>
+
+<PersonEditor Person="person" Gespeichert="PersonUebernehmen" />
+
+<p>Versuch 1: Entwurf ändern und speichern. Der Callback übergibt eine neue Person.</p>
+<p>Versuch 2: Die gemeinsame Person direkt ändern. Erst die Elternanzeige neu rendern:
+    Das Objekt wurde auch ohne Callback verändert.</p>
+<p>Eine Objektänderung informiert Blazor nicht automatisch.
+    Der Entwurf mit anschließendem Callback macht den Datenweg ausdrücklich sichtbar.</p>
+
+@code {
+    private Person person = new() { Name = "Sam", Alter = 20 };
+    private int speicherungen;
+
+    private void PersonUebernehmen(Person neuePerson)
+    {
+        person = neuePerson;
+        speicherungen++;
+    }
+
+    private void AnzeigeAktualisieren()
+    {
+        // Das Blazor-Klickereignis löst das Rendern der Eltern automatisch aus.
+    }
+}

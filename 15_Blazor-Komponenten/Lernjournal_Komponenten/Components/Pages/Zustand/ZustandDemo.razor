@@ -1,0 +1,14 @@
+@page "/zustand"
+
+<PageTitle>10 Zustandsdienst</PageTitle>
+<h1>10 Gemeinsamer Zustand über einen Dienst</h1>
+<p>Editor und Anzeigen bekommen dieselbe Instanz von LernZustand über Dependency Injection.</p>
+
+<NameEditor />
+<NameAnzeige />
+<NameAnzeige />
+
+<p>Die Elternseite gibt keine Daten weiter. Die Anzeigen abonnieren die Änderungsmeldung des Dienstes.</p>
+<p>Beim Verlassen der Seite melden sich die Anzeigen wieder ab (Dispose).</p>
+<p>Scoped bedeutet hier: pro interaktiver Server-Verbindung.
+    Beim Navigieren bleibt der Name erhalten; ein vollständiges Neuladen beginnt mit Sam.</p>

@@ -1,0 +1,17 @@
+@page "/kaskade"
+
+<PageTitle>09 CascadingParameter</PageTitle>
+<h1>09 CascadingParameter über mehrere Ebenen</h1>
+<p>Die Eltern bieten einen Wert an. Das Enkelkind liest ihn, ohne dass die Zwischenebene ihn durchreichen muss.</p>
+
+<p><label>Name bei den Eltern: <input @bind="name" @bind:event="oninput" /></label></p>
+
+<CascadingValue Value="name" Name="LernName">
+    <ZwischenEbene />
+</CascadingValue>
+
+<p>Ein CascadingParameter ist ein Eingang. Eine Rückmeldung würde weiterhin einen Callback oder einen Dienst benötigen.</p>
+
+@code {
+    private string name = "Sam";
+}

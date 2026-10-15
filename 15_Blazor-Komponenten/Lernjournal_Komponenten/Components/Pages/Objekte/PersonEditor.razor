@@ -1,0 +1,48 @@
+<fieldset>
+    <legend>Kind: PersonEditor</legend>
+    <p>Gemeinsame Person im Kind: @Person.Name, @Person.Alter Jahre</p>
+    <p><label>Entwurf Name: <input @bind="name" @bind:event="oninput" /></label></p>
+    <p><label>Entwurf Alter: <input type="number" @bind="alter" @bind:event="oninput" /></label></p>
+    <button @onclick="SpeichernAsync">Neue Person per Callback speichern</button>
+    <button @onclick="DirektAendern">Gemeinsame Person direkt ändern</button>
+    <p>@hinweis</p>
+</fieldset>
+
+@code {
+    [Parameter, EditorRequired]
+    public Person Person { get; set; } = new();
+
+    [Parameter]
+    public EventCallback<Person> Gespeichert { get; set; }
+
+    private Person? letztePerson;
+    private string name = "";
+    private int alter;
+    private string hinweis = "Noch keine Änderung";
+
+    protected override void OnParametersSet()
+    {
+        // Nur bei einer neuen Person den lokalen Entwurf neu befüllen.
+        // Sonst würde ein Rendern der Eltern die Eingabe überschreiben.
+        if (!ReferenceEquals(letztePerson, Person))
+        {
+            letztePerson = Person;
+            name = Person.Name;
+            alter = Person.Alter;
+        }
+    }
+
+    private async Task SpeichernAsync()
+    {
+        var neuePerson = new Person { Name = name, Alter = alter };
+        await Gespeichert.InvokeAsync(neuePerson);
+        hinweis = "Neue Person über Callback übergeben";
+    }
+
+    private void DirektAendern()
+    {
+        // Absichtliches Gegenbeispiel: gemeinsame Daten ohne Rückmeldung verändern.
+        Person.Name = "Direkt im Kind geändert";
+        hinweis = "Gemeinsames Objekt verändert, kein Callback ausgelöst";
+    }
+}

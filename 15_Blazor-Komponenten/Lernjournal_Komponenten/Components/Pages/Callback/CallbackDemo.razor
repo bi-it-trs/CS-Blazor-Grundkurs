@@ -1,0 +1,37 @@
+@page "/callback"
+
+<PageTitle>02 EventCallback</PageTitle>
+<h1>02 EventCallback: Kind → Eltern</h1>
+<p>Das Kind löst ein Ereignis aus. Die Eltern bestimmen, welche Methode darauf reagiert.</p>
+
+<TextSender TextGesendet="TextEmpfangen" Geklickt="KlickZaehlen" />
+
+<fieldset>
+    <legend>Eltern: CallbackDemo</legend>
+    <p>Empfangener Text: @empfangenerText</p>
+    <p>Ereignisse ohne Nutzdaten: @klicks</p>
+</fieldset>
+
+<details>
+    <summary>Optional: Kind ohne zugewiesenen Handler</summary>
+    <TextSender />
+    <p>Ein nicht zugewiesener Callback kann aufgerufen werden. Es wird kein Eltern-Handler ausgeführt.</p>
+</details>
+
+<p><code>EventCallback&lt;string&gt;</code> übergibt einen string an den Handler.
+    <code>EventCallback</code> wird hier ohne eigene Nutzdaten ausgelöst.</p>
+
+@code {
+    private string empfangenerText = "Noch nichts empfangen";
+    private int klicks;
+
+    private void TextEmpfangen(string text)
+    {
+        empfangenerText = text;
+    }
+
+    private void KlickZaehlen()
+    {
+        klicks++;
+    }
+}

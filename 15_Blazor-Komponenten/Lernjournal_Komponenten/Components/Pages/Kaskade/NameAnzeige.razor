@@ -1,0 +1,9 @@
+<fieldset>
+    <legend>Enkelkind: NameAnzeige</legend>
+    <p>Name aus der Kaskade: @Name</p>
+</fieldset>
+
+@code {
+    [CascadingParameter(Name = "LernName")]
+    public string Name { get; set; } = "";
+}

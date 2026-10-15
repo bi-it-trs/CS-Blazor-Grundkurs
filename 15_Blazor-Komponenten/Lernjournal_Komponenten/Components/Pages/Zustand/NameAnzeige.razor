@@ -1,0 +1,25 @@
+@implements IDisposable
+@inject LernZustand Zustand
+
+<fieldset>
+    <legend>NameAnzeige</legend>
+    <p>Name im Dienst: @Zustand.Name</p>
+</fieldset>
+
+@code {
+    protected override void OnInitialized()
+    {
+        Zustand.Geaendert += AnzeigeAktualisieren;
+    }
+
+    private void AnzeigeAktualisieren()
+    {
+        // NameSetzen wird in diesem Beispiel nur aus Blazor-Ereignissen aufgerufen.
+        StateHasChanged();
+    }
+
+    public void Dispose()
+    {
+        Zustand.Geaendert -= AnzeigeAktualisieren;
+    }
+}

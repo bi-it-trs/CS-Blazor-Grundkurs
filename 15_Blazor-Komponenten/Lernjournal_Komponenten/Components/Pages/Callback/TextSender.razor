@@ -1,0 +1,27 @@
+<fieldset>
+    <legend>Kind: TextSender</legend>
+    <p><label>Nachricht: <input @bind="nachricht" @bind:event="oninput" /></label></p>
+    <button @onclick="TextSendenAsync">Text senden</button>
+    <button @onclick="KlickMeldenAsync">Ereignis ohne Daten</button>
+    <p>Texthandler vorhanden: @TextGesendet.HasDelegate</p>
+</fieldset>
+
+@code {
+    private string nachricht = "Hallo vom Kind";
+
+    [Parameter]
+    public EventCallback<string> TextGesendet { get; set; }
+
+    [Parameter]
+    public EventCallback Geklickt { get; set; }
+
+    private async Task TextSendenAsync()
+    {
+        await TextGesendet.InvokeAsync(nachricht);
+    }
+
+    private async Task KlickMeldenAsync()
+    {
+        await Geklickt.InvokeAsync();
+    }
+}

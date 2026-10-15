@@ -3,7 +3,21 @@
     <h2 id="regler-titel">Regler</h2>
 
     <div class="farbknopfe">
-        <SchrittKnopf Beschriftung="Kälter" Schritt="-1" />
-        <SchrittKnopf Beschriftung="Wärmer" Schritt="1" />
+        <SchrittKnopf Beschriftung="Kälter" Schritt="-1"
+        OnSchritt="ToHome" />
+        <SchrittKnopf Beschriftung="Wärmer" Schritt="1" 
+        OnSchritt="ToHome"/>
     </div>
 </section>
+
+@code{
+
+    [Parameter]
+    public EventCallback<int> OnReguliert { get; set; }
+
+    private Task ToHome(int Bla)
+    {
+        return OnReguliert.InvokeAsync(Bla);
+    }
+
+}

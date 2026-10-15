@@ -1,0 +1,44 @@
+<fieldset>
+    <legend>Kind: LadeKnopf</legend>
+    <button @onclick="StartenAsync" disabled="@laedt">Laden starten</button>
+    <p>Status im Kind: @status</p>
+    <ol>
+        @foreach (string schritt in ablauf)
+        {
+            <li>@schritt</li>
+        }
+    </ol>
+</fieldset>
+
+@code {
+    [Parameter]
+    public EventCallback Laden { get; set; }
+
+    private bool laedt;
+    private string status = "Bereit";
+    private readonly List<string> ablauf = [];
+
+    private async Task StartenAsync()
+    {
+        laedt = true;
+        status = "Wartet auf Eltern";
+        ablauf.Clear();
+        ablauf.Add("Vor InvokeAsync");
+
+        try
+        {
+            await Laden.InvokeAsync();
+            ablauf.Add("Nach await: Eltern-Handler ist fertig");
+            status = "Erfolgreich abgeschlossen";
+        }
+        catch (InvalidOperationException fehler)
+        {
+            ablauf.Add("Fehler beim await empfangen");
+            status = fehler.Message;
+        }
+        finally
+        {
+            laedt = false;
+        }
+    }
+}

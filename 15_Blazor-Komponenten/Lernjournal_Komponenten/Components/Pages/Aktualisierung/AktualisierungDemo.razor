@@ -1,0 +1,75 @@
+@page "/aktualisierung"
+@implements IDisposable
+@inject SignalDienst Signale
+
+<PageTitle>12 UI aktualisieren</PageTitle>
+<h1>12 Externe Signale und InvokeAsync</h1>
+<p>Der Dienst simuliert ein Signal außerhalb des Blazor-Ausführungskontexts.</p>
+
+<button @onclick="SignalStartenAsync" disabled="@wartet">Externes Signal starten</button>
+<button @onclick="ZwischenstandSetzen" disabled="@(!wartet)">Zwischenstand ohne StateHasChanged</button>
+<p>Nachricht: @nachricht</p>
+<p>Empfangene Signale: @anzahl</p>
+<p>Der zweite Button zeigt während der Wartezeit, dass ein normales Klickereignis die Anzeige automatisch aktualisiert.</p>
+
+<dl>
+    <dt>callback.InvokeAsync(wert)</dt>
+    <dd>Führt einen EventCallback aus und liefert einen Task für dessen Abschluss.</dd>
+    <dt>InvokeAsync(aktion) der Komponente</dt>
+    <dd>Führt eine Aktion im Blazor-Kontext aus. Hier wird anschließend mit StateHasChanged ein Rendern angefordert.</dd>
+    <dt>StateHasChanged()</dt>
+    <dd>Fordert eine Aktualisierung der Anzeige an. Wechselt selbst keinen Ausführungskontext.</dd>
+</dl>
+
+@code {
+    private string nachricht = "Noch kein Signal";
+    private bool wartet;
+    private int anzahl;
+    private bool entfernt;
+
+    protected override void OnInitialized()
+    {
+        Signale.SignalEmpfangen += SignalAnzeigenAsync;
+    }
+
+    private async Task SignalStartenAsync()
+    {
+        wartet = true;
+        nachricht = "Wartet auf Signal ...";
+        try
+        {
+            await Signale.SendenAsync();
+        }
+        finally
+        {
+            wartet = false;
+        }
+    }
+
+    private void ZwischenstandSetzen()
+    {
+        nachricht = "Klick verarbeitet – Signal kommt noch";
+    }
+
+    private async Task SignalAnzeigenAsync(string text)
+    {
+        // Diese Methode wird vom Hintergrunddienst aufgerufen.
+        await InvokeAsync(() =>
+        {
+            if (entfernt)
+            {
+                return;
+            }
+
+            nachricht = text;
+            anzahl++;
+            StateHasChanged();
+        });
+    }
+
+    public void Dispose()
+    {
+        entfernt = true;
+        Signale.SignalEmpfangen -= SignalAnzeigenAsync;
+    }
+}

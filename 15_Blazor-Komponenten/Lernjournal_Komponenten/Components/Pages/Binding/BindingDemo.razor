@@ -1,0 +1,30 @@
+@page "/binding"
+
+<PageTitle>06 Binding</PageTitle>
+<h1>06 Zwei-Wege-Binding</h1>
+<p>Die beiden Schreibweisen verbinden denselben Elternwert mit je einem Kind.</p>
+
+<h2>Ausgeschrieben: Parameter und Callback</h2>
+<TextEingabe Text="@text" TextChanged="TextUebernehmen" />
+
+<h2>Kurzform: @@bind-Text</h2>
+<TextEingabe @bind-Text="text" />
+
+<p>Text bei den Eltern: @text</p>
+<button @onclick="Zuruecksetzen">Bei den Eltern zurücksetzen</button>
+<p>Die Konvention lautet: Parameter Text plus EventCallback&lt;string&gt; TextChanged.</p>
+<p>Die Kinder melden Änderungen. Die Eltern speichern sie und reichen den aktuellen Wert wieder nach unten.</p>
+
+@code {
+    private string text = "Gemeinsamer Text";
+
+    private void TextUebernehmen(string neuerText)
+    {
+        text = neuerText;
+    }
+
+    private void Zuruecksetzen()
+    {
+        text = "Gemeinsamer Text";
+    }
+}

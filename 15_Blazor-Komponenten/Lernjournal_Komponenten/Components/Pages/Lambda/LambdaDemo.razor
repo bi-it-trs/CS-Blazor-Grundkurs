@@ -1,0 +1,66 @@
+@page "/lambda"
+@using BlazorDatenlabor.Components.Pages.Callback
+
+<PageTitle>03 Lambdas</PageTitle>
+<h1>03 Methodenreferenzen und Lambdas</h1>
+
+<h2>Methodenreferenz</h2>
+<button @onclick="TextSetzen">Methode ohne eigene Argumente</button>
+
+<h2>Lambda mit festen Argumenten</h2>
+<button @onclick='() => TextMitNummer("Hallo", 7)'>Hallo und 7 übergeben</button>
+
+<h2>Lambda mit empfangenem Argument</h2>
+<TextSender TextGesendet="text => TextMitNummer(text, 8)" />
+
+<h2>Lambda in einer Schleife</h2>
+@for (int i = 1; i <= 3; i++)
+{
+    // Jede Lambda erhält ihre eigene Nummer statt der gemeinsamen Schleifenvariable i.
+    int nummer = i;
+    <button @onclick='() => TextMitNummer("Schleife", nummer)'>Nummer @nummer</button>
+}
+
+<h2>Browser-Ereignis mit Argument</h2>
+<button @onclick="KlickLesen">Klickposition lesen</button>
+
+<details>
+    <summary>Asynchrone Lambda</summary>
+    <TextSender TextGesendet='async text =>
+        {
+            await Task.Delay(700);
+            ergebnis = $"Asynchron empfangen: {text}";
+        }' />
+    <p>Durch async und await liefert die Lambda einen Task. Der Text erscheint nach einer kurzen Wartezeit.</p>
+</details>
+
+<p>Ergebnis: @ergebnis</p>
+<p><code>TextSetzen</code> übergibt eine Methode.
+    <code>TextSetzen()</code> führt sie direkt aus.
+    Die Lambda verschiebt den Aufruf bis zum Ereignis.</p>
+
+@* Falsch: void ist kein Ereignishandler, sondern der Rückgabetyp dieses Aufrufs.
+   <button @onclick="TextSetzen()">Falsch</button>
+
+   Falsch: TextGesendet liefert string, diese Lambda erwartet jedoch int.
+   <TextSender TextGesendet='(int zahl) => TextMitNummer("Hallo", zahl)' />
+*@
+
+@code {
+    private string ergebnis = "Noch keine Aktion";
+
+    private void TextSetzen()
+    {
+        ergebnis = "Methodenreferenz ausgeführt";
+    }
+
+    private void TextMitNummer(string text, int nummer)
+    {
+        ergebnis = $"{text}, Nummer {nummer}";
+    }
+
+    private void KlickLesen(MouseEventArgs ereignis)
+    {
+        ergebnis = $"Klick bei X={ereignis.ClientX}, Y={ereignis.ClientY}";
+    }
+}

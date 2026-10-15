@@ -1,0 +1,20 @@
+@page "/geschwister"
+
+<PageTitle>07 Geschwister</PageTitle>
+<h1>07 Geschwister über die Eltern verbinden</h1>
+<p>TextEditor → EventCallback → Elternwert → Parameter → TextVorschau.</p>
+
+<TextEditor TextGeaendert="TextUebernehmen" />
+<p>Gemeinsamer Wert bei den Eltern: @text</p>
+<TextVorschau Text="@text" />
+
+<p>Die Kinder kennen einander nicht. Die Eltern besitzen den gemeinsamen Zustand.</p>
+
+@code {
+    private string text = "Noch keine Nachricht";
+
+    private void TextUebernehmen(string neuerText)
+    {
+        text = neuerText;
+    }
+}

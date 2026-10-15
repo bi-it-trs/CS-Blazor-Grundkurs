@@ -1,0 +1,27 @@
+<fieldset>
+    <legend>Kind: Zaehler</legend>
+    <button @onclick="Erhoehen">Im Kind erhöhen</button>
+    <p>Zahl im Kind: @zahl</p>
+</fieldset>
+
+@code {
+    private int zahl;
+
+    private void Erhoehen()
+    {
+        zahl++;
+    }
+
+    public int WertLesen()
+    {
+        return zahl;
+    }
+
+    public async Task ZuruecksetzenAsync()
+    {
+        zahl = 0;
+        // Ein öffentlicher Methodenaufruf ist kein Blazor-Ereignis im Kind.
+        // Das Kind fordert die Aktualisierung seiner Anzeige selbst an.
+        await InvokeAsync(StateHasChanged);
+    }
+}

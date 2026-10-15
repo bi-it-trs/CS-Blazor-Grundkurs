@@ -27,6 +27,18 @@ git clean -fd -- "15_Blazor-Komponenten/01_Farbwahl/"
 
 `git clean -fd` löscht diese nicht versionierten Dateien endgültig. Der Pfad am Ende begrenzt auch diesen Befehl auf **einen** Übungsordner. Ersetze ihn für andere Übungen, zum Beispiel durch `15_Blazor-Komponenten/02_Temperaturregler/`.
 
+## Neue Komponentenprojekte und Lernjournal
+
+F?r `15_Blazor-Komponenten/04_Zaehler/`, `15_Blazor-Komponenten/05_Punktewahl/` und `15_Blazor-Komponenten/06_Einkaufsliste/` verwende `--source=komponenten-ergaenzungen-start`. Diese Projekte fehlen im ?lteren Tag `uebungen-start`. Die vollst?ndigen Befehle stehen im jeweiligen Aufgabenblatt. F?r die bisherigen ?bungen bleibt `uebungen-start` der urspr?ngliche Ausgangsstand.
+
+Das Lernjournal ist eine Sammlung fertiger Beispiele. Auf den eingecheckten Beispielstand zur?cksetzen:
+
+```powershell
+git restore --source=komponenten-ergaenzungen-start --staged --worktree -- "15_Blazor-Komponenten/Lernjournal_Komponenten/"
+```
+
+Auch hier bleiben nicht versionierte Dateien stehen; verwende zum Pr?fen `git clean -nd -- "15_Blazor-Komponenten/Lernjournal_Komponenten/"` und nur bei Bedarf zum endg?ltigen L?schen `git clean -fd -- "15_Blazor-Komponenten/Lernjournal_Komponenten/"`.
+
 ## Eine eigene Zwischenversion speichern
 
 ```powershell
@@ -49,7 +61,7 @@ Wenn die Anmeldung funktioniert und noch kein gleichnamiges Remote-Repository ex
 
 ```powershell
 gh repo create cs_uebungen --public --source=. --remote=origin --push
-git push origin uebungen-start
+git push origin uebungen-start komponenten-ergaenzungen-start
 ```
 
 Prüfe vor dem Push mit `git status` und `git ls-files`, welche Dateien versioniert sind. Lokale Passwörter gehören nicht in Git; verwende für Datenbank-Zugangsdaten zum Beispiel .NET User Secrets oder eine ignorierte `.env`-Datei.

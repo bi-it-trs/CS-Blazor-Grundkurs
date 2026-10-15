@@ -1,0 +1,17 @@
+<fieldset>
+    <legend>Erstes Kind: TextEditor</legend>
+    <label>Nachricht: <input @bind="entwurf" @bind:event="oninput" /></label>
+    <button @onclick="SendenAsync">An Geschwister senden</button>
+</fieldset>
+
+@code {
+    private string entwurf = "Hallo an das andere Kind";
+
+    [Parameter]
+    public EventCallback<string> TextGeaendert { get; set; }
+
+    private async Task SendenAsync()
+    {
+        await TextGeaendert.InvokeAsync(entwurf);
+    }
+}

@@ -1,0 +1,41 @@
+@page "/"
+@rendermode InteractiveServer
+
+<h1>Einkaufsliste</h1>
+
+<input @bind="neuerEintrag" placeholder="Neuer Eintrag" />
+<button type="button" @onclick="Hinzufuegen">Hinzufügen</button>
+
+<p>Anzahl: @eintraege.Count</p>
+
+<ul>
+    @foreach (string eintrag in eintraege)
+    {
+        <li>
+            @eintrag
+            <button type="button" @onclick="() => Entfernen(eintrag)">Entfernen</button>
+        </li>
+    }
+</ul>
+
+@code {
+    private readonly List<string> eintraege = [];
+    private string neuerEintrag = string.Empty;
+
+    private void Hinzufuegen()
+    {
+        string text = neuerEintrag.Trim();
+        if (text.Length == 0)
+        {
+            return;
+        }
+
+        eintraege.Add(text);
+        neuerEintrag = string.Empty;
+    }
+
+    private void Entfernen(string eintrag)
+    {
+        eintraege.Remove(eintrag);
+    }
+}

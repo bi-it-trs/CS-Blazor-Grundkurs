@@ -1,0 +1,40 @@
+@page "/referenz"
+
+<PageTitle>08 Referenz</PageTitle>
+<h1>08 Kindmethoden über @@ref aufrufen</h1>
+<p>Die Eltern erhalten eine Referenz auf eine gerenderte Kindkomponente.</p>
+
+<Zaehler @ref="zaehler" />
+
+<fieldset>
+    <legend>Eltern: ReferenzDemo</legend>
+    <button @onclick="KindZuruecksetzenAsync">Kind zurücksetzen</button>
+    <button @onclick="WertAbfragen">Wert aus Kind abfragen</button>
+    <p>Zuletzt abgefragter Wert: @letzterWert</p>
+</fieldset>
+
+<p>Der abgefragte Wert ist eine Momentaufnahme. Er folgt dem Kind nicht automatisch.</p>
+<p>Die Referenz ist erst nach dem Rendern gesetzt. Deshalb wird vor dem Aufruf auf null geprüft.</p>
+<p>Für laufende Datenübergabe sind Parameter und Callbacks meist verständlicher.
+    Eine Referenz eignet sich für gezielte Aktionen wie Zurücksetzen.</p>
+
+@code {
+    private Zaehler? zaehler;
+    private string letzterWert = "Noch nicht abgefragt";
+
+    private async Task KindZuruecksetzenAsync()
+    {
+        if (zaehler is not null)
+        {
+            await zaehler.ZuruecksetzenAsync();
+        }
+    }
+
+    private void WertAbfragen()
+    {
+        if (zaehler is not null)
+        {
+            letzterWert = zaehler.WertLesen().ToString();
+        }
+    }
+}

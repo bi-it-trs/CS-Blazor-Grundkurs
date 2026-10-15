@@ -14,7 +14,8 @@
     </header>
 
     <div class="komponenten-raster">
-        <TemperaturRegler />
+        <TemperaturRegler
+        OnReguliert="Regulierung"/>
         <TemperaturAnzeige Temperatur="@temperatur" />
     </div>
 
@@ -34,4 +35,10 @@
 
 @code {
     private int temperatur = 20;
+    private int schritt;
+
+    private void Regulierung(int schritt)
+    {
+        temperatur = temperatur + schritt;
+    }
 }

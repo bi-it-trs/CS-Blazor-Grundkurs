@@ -1,0 +1,28 @@
+@page "/parameter"
+
+<PageTitle>01 Parameter</PageTitle>
+<h1>01 Parameter: Eltern → Kind</h1>
+<p>Die Eltern besitzen die Werte und übergeben sie an zwei Kindkomponenten.</p>
+
+<fieldset>
+    <legend>Eltern: ParameterDemo</legend>
+    <p><label>Text: <input @bind="text" @bind:event="oninput" /></label></p>
+    <button @onclick="ZahlErhoehen">Zahl erhöhen</button>
+    <p>Zahl bei den Eltern: @zahl</p>
+</fieldset>
+
+<TextAnzeige Text="@text" Zahl="zahl" Titel="Erstes Kind" />
+<TextAnzeige Text="Fester Text" />
+
+<p>Beobachtung: Das erste Kind erhält neue Werte. Beim zweiten Kind gilt für Zahl der Standardwert 0.</p>
+<p>Ein Parameter ist ein Eingang. Das Kind ändert die Parameter hier nicht selbst.</p>
+
+@code {
+    private string text = "Hallo vom Elternteil";
+    private int zahl;
+
+    private void ZahlErhoehen()
+    {
+        zahl++;
+    }
+}

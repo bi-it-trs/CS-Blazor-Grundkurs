@@ -1,0 +1,44 @@
+<fieldset>
+    <legend>Kind: AnfrageBox</legend>
+    <button @onclick="TextAbfragen" disabled="@(TextLesen is null)">Synchron abfragen</button>
+    <button @onclick="TextAbfragenAsync" disabled="@(laedt || TextLaden is null)">Asynchron abfragen</button>
+    <p>Ergebnis im Kind: @ergebnis</p>
+</fieldset>
+
+@code {
+    private string ergebnis = "Noch nicht abgefragt";
+    private bool laedt;
+
+    [Parameter]
+    public Func<string>? TextLesen { get; set; }
+
+    [Parameter]
+    public Func<Task<string>>? TextLaden { get; set; }
+
+    private void TextAbfragen()
+    {
+        if (TextLesen is not null)
+        {
+            ergebnis = TextLesen();
+        }
+    }
+
+    private async Task TextAbfragenAsync()
+    {
+        if (TextLaden is null)
+        {
+            return;
+        }
+
+        laedt = true;
+        ergebnis = "Lädt ...";
+        try
+        {
+            ergebnis = await TextLaden();
+        }
+        finally
+        {
+            laedt = false;
+        }
+    }
+}

@@ -1,4 +1,4 @@
-<button type="button" class="farbknopf schrittknopf">
+<button type="button" class="farbknopf schrittknopf" @onclick="() => OnSchritt.InvokeAsync(Schritt)" >
     @Beschriftung <span aria-hidden="true">(@Schritt)</span>
 </button>
 
@@ -8,4 +8,7 @@
 
     [Parameter]
     public int Schritt { get; set; }
+
+    [Parameter]
+    public EventCallback<int> OnSchritt { get; set; }
 }

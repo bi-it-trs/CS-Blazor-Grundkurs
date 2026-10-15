@@ -1,0 +1,24 @@
+@page "/"
+@rendermode InteractiveServer
+
+<h1>Punktewahl</h1>
+
+@foreach (int zahl in zahlen)
+{
+    <button type="button" @onclick="() => Waehle(zahl)">@zahl</button>
+}
+
+<p>Gewählt: @punkte von 5 Punkten</p>
+<p>@Rueckmeldung</p>
+
+@code {
+    private readonly int[] zahlen = [1, 2, 3, 4, 5];
+    private int punkte = 3;
+
+    private string Rueckmeldung => punkte >= 4 ? "Das lief gut." : "Da ist noch Luft nach oben.";
+
+    private void Waehle(int zahl)
+    {
+        punkte = zahl;
+    }
+}
